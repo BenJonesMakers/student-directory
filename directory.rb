@@ -9,9 +9,16 @@ def input_students
   while !name.empty? do
 		puts "And their DB"
 		dob = gets.chomp
+    puts "Enter cohort (default:november)"
+    cohort = gets.chomp
 	  # add the student hash to the array
-    students << {name: name, cohort: :november, dob: dob}
+    if cohort.empty?
+      students << {name: name, cohort: :november, dob: dob}
+    else
+      students << {name: name, cohort: cohort, dob: dob}
+    end
     # get another name from the user
+    puts "Name? (enter twice to finish)"
     name = gets.chomp
   end
 	return students
