@@ -4,13 +4,13 @@ def input_students
   # create an empty array
   students = []
   # get the first name
-  name = gets.chomp
+  name = gets.strip
   # while the name is not empty, repeat the code
   while !name.empty? do
 		puts "And their DB"
-		dob = gets.chomp
+		dob = gets.strip
     puts "Enter cohort (default:november)"
-    cohort = gets.chomp
+    cohort = gets.strip
 	  # add the student hash to the array
     if cohort.empty?
       students << {name: name, cohort: :november, dob: dob}
