@@ -30,12 +30,16 @@ def print_header
 end
 
 def print(students)
-
-  students.each_with_index do |student, index|
-    if student[:name].length < 12
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort) - DoB: #{student[:dob]}".center(45)
-    end
-  end
+  # get groups as a new array and strips the duplicates
+  cohorts = students.map {|student| student[:cohort].to_s}.uniq
+  cohorts.each do |cohort|
+    puts "Cohort: #{cohort}".center(45, "-")
+    students.each do |student|
+      if student[:cohort].to_s == cohort
+        puts "#{student[:name]} - DoB: #{student[:dob]}".center(45)
+      end
+     end
+   end
 end
 
 def print_footer(students)
