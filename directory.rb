@@ -30,7 +30,8 @@ def print_header
 end
 
 def print(students)
-  # get groups as a new array and strips the duplicates
+  if !students.empty?
+	# get groups as a new array and strips the duplicates
   cohorts = students.map {|student| student[:cohort].to_s}.uniq
   cohorts.each do |cohort|
     puts "Cohort: #{cohort}".center(45, "-")
@@ -40,6 +41,7 @@ def print(students)
       end
      end
    end
+  end
 end
 
 def print_footer(students)
