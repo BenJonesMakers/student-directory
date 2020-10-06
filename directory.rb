@@ -7,8 +7,10 @@ def input_students
   name = gets.chomp
   # while the name is not empty, repeat the code
   while !name.empty? do
+		puts "And their DB"
+		dob = gets.chomp
 	  # add the student hash to the array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: :november, dob: dob}
     # get another name from the user
     name = gets.chomp
   end
@@ -21,13 +23,11 @@ def print_header
 end
 
 def print(students)
-  counter = 0
-  while counter <= students.count - 1 do
-    student = students[counter]
+
+  students.each_with_index do |student, index|
     if student[:name].length < 12
-      puts "#{counter + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort) - DoB: #{student[:dob]}"
     end
-    counter += 1
   end
 end
 
