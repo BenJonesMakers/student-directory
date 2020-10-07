@@ -1,34 +1,28 @@
+@students = [] # an empty array accessible to all methods
+
 def interactive_menu
-students = []
   loop do
-    # 1. Print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-		# 2. read the input and save it into a variable
-    selection = gets.chomp
-		# 3. do what the user has asked
-		case selection
-			when "1"
-				# input the students
-				students = input_students
-			when "2"
-				# show the students
-				print_header
-				print(students)
-				print_footer(students)
-			when "9"
-				exit # terminates the program
-			else
-				puts "I don't know what you meant, try again"
-		end
+    print_menu
+    process(gets.chomp)
   end
+end
+
+def process(selection)
+	case selection
+		when "1"
+			input_students
+		when "2"
+			show_students
+		when "9"
+			exit # terminates the program
+		else
+			puts "I don't know what you meant, try again"
+	end
 end
 
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
-  students = []
   # get the first name
   name = gets.strip
   # while the name is not empty, repeat the code
@@ -39,15 +33,14 @@ def input_students
     cohort = gets.strip
 	  # add the student hash to the array
     if cohort.empty?
-      students << {name: name, cohort: :november, dob: dob}
+      @students << {name: name, cohort: :november, dob: dob}
     else
-      students << {name: name, cohort: cohort, dob: dob}
+      @students << {name: name, cohort: cohort, dob: dob}
     end
     # get another name from the user
     puts "Name? (enter twice to finish)"
     name = gets.chomp
   end
-	return students
 end
 
 def print_header
@@ -55,13 +48,13 @@ def print_header
   puts "-------------".center(45, "-")
 end
 
-def print(students)
-  if !students.empty?
+def print_students
+  if !@students.empty?
 	# get groups as a new array and strips the duplicates
-  cohorts = students.map {|student| student[:cohort].to_s}.uniq
+  cohorts = @students.map {|student| student[:cohort].to_s}.uniq
   cohorts.each do |cohort|
     puts "Cohort: #{cohort}".center(45, "-")
-    students.each do |student|
+    @students.each do |student|
       if student[:cohort].to_s == cohort
         puts "#{student[:name]} - DoB: #{student[:dob]}".center(45)
       end
@@ -70,12 +63,24 @@ def print(students)
   end
 end
 
-def print_footer(students)
-  if students.count > 1
-    puts "Overall, we have #{students.count} great students".center(45, "-")
+def print_footer
+  if @students.count > 1
+    puts "Overall, we have #{@students.count} great students".center(45, "-")
   else
-    puts "Overall, we have #{students.count} great student".center(45, "-")
+    puts "Overall, we have #{@students.count} great student".center(45, "-")
   end
+end
+
+def show_students
+	print_header
+	print_students
+	print_footer
+end
+
+def print_menu
+	puts "1. Input the students"
+	puts "2. Show the students"
+	puts "9. Exit"
 end
 
 interactive_menu
