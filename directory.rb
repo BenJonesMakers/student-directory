@@ -45,9 +45,9 @@ def input_students
     cohort = STDIN.gets.strip
 	  # add the student hash to the array
     if cohort.empty?
-      @students << {name: name, cohort: :november, dob: dob}
+      add_to_students(name, :november, dob)
     else
-      @students << {name: name, cohort: cohort, dob: dob}
+      add_to_students(name, cohort.to_sym, dob)
     end
     # get another name from the user
     puts "Name? (enter twice to finish)"
@@ -63,9 +63,9 @@ end
 def save_students
   # open the file for writing
   file = File.open("students.csv", "w")
-  # iterate over hte array of students
+  # iterate over the array of students
   @students.each do |student|
-  student_data = [student[:name], student[:cohort]]
+  student_data = [student[:name], student[:cohort], student[:dob]]
   csv_line = student_data.join(",")
   file.puts csv_line
   end
@@ -87,8 +87,8 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-  @students << {name: name, cohort: cohort.to_sym}
+  name, cohort, dob = line.chomp.split(',')
+  add_to_students(name, cohort.to_sym, dob)
   end
   file.close
 end
@@ -114,6 +114,10 @@ def print_footer
   else
     puts "Overall, we have #{@students.count} great student".center(45, "-")
   end
+end
+
+def add_to_students(name, cohort, dob)
+  @students << {name: name, cohort: cohort.to_sym, dob: dob}
 end
 
 def show_students
