@@ -64,6 +64,7 @@ def save_students
   file.puts csv_line
   end
   file.close
+  puts "Students list saved to file"
 end
 
 def try_load_students
@@ -87,6 +88,7 @@ def load_students(filename = "students.csv")
    end
   end
   file.close
+  puts "Students loaded from file: '#{filename}'"
 end
 
 def print_students
