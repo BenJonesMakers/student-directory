@@ -33,25 +33,19 @@ def process(selection)
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # get the first name
-  name = STDIN.gets.strip
-  # while the name is not empty, repeat the code
-  while !name.empty? do
-		puts "And their DB"
-		dob = STDIN.gets.strip
-    puts "Enter cohort (default:november)"
-    cohort = STDIN.gets.strip
-	  # add the student hash to the array
-    if cohort.empty?
-      add_to_students(name, :november, dob)
-    else
-      add_to_students(name, cohort.to_sym, dob)
-    end
-    # get another name from the user
-    puts "Name? (enter twice to finish)"
+  while true do
+    puts "Please enter the names(to finish, hit enter twice)"
     name = STDIN.gets.chomp
+    break if name.empty?
+		puts "And their DB"
+		dob = STDIN.gets.chomp
+    puts "Enter cohort (default:november)"
+    cohort = STDIN.gets.chomp
+    if cohort.empty?
+      add_to_students(name, dob, cohort="november")
+    else
+      add_to_students(name, dob, cohort)
+    end
   end
 end
 
@@ -65,7 +59,7 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students
   @students.each do |student|
-  student_data = [student[:name], student[:cohort], student[:dob]]
+  student_data = [student[:name], student[:dob], student[:cohort]]
   csv_line = student_data.join(",")
   file.puts csv_line
   end
@@ -87,8 +81,10 @@ end
 def load_students(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-  name, cohort, dob = line.chomp.split(',')
-  add_to_students(name, cohort.to_sym, dob)
+   name, dob, cohort = line.chomp.split(',')
+   if !name.nil?
+		  add_to_students(name, dob, cohort)
+   end
   end
   file.close
 end
@@ -116,7 +112,7 @@ def print_footer
   end
 end
 
-def add_to_students(name, cohort, dob)
+def add_to_students(name, dob, cohort)
   @students << {name: name, cohort: cohort.to_sym, dob: dob}
 end
 
